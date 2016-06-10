@@ -13,11 +13,19 @@
     "token",
     "auth"
   ],
-  "scripts": {},
+  "scripts": {
+    "test": "karma start"
+  },
   "author": "ddomingues",
   "license": "MIT",
   "devDependencies": {
-    "cz-conventional-changelog": "^1.1.6"
+    "cz-conventional-changelog": "^1.1.6",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-jasmine": "^1.0.2",
+    "karma-mocha-reporter": "^2.0.3",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "phantomjs-prebuilt": "^2.1.7"
   },
   "config": {
     "commitizen": {
