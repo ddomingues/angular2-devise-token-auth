@@ -1,0 +1,19 @@
+{
+  "name": "angular2-devise-token-auth",
+  "version": "0.0.1",
+  "description": "Helper library for working with Devise Token Auth in your Angular 2 applications",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/equalize-squad/angular2-devise-token-auth.git"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "devise",
+    "token",
+    "auth"
+  ],
+  "scripts": {},
+  "author": "ddomingues",
+  "license": "MIT"
+}
