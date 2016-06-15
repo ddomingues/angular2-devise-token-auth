@@ -1,10 +1,9 @@
 {
   "name": "angular2-devise-token-auth",
-  "version": "0.0.1",
   "description": "Helper library for working with Devise Token Auth in your Angular 2 applications",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/equalize-squad/angular2-devise-token-auth.git"
+    "url": "https://github.com/equalize-squad/angular2-devise-token-auth.git"
   },
   "keywords": [
     "angular",
@@ -21,7 +20,8 @@
     "pretest": "npm run build",
     "build": "rm -rf dist; tsc",
     "postinstall": "typings install",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "author": "ddomingues",
   "license": "MIT",
@@ -47,7 +47,8 @@
     "systemjs": "^0.19.31",
     "typescript": "^1.8.10",
     "typings": "^1.0.4",
-    "zone.js": "^0.6.12"
+    "zone.js": "^0.6.12",
+    "semantic-release": "^4.3.5"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.1",
