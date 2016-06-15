@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "target": "es5",
+    "noImplicitAny": false,
+    "outDir": "dist",
+    "rootDir": "lib",
+    "sourceMap": true,
+    "sourceRoot": "./",
+    "declaration": true,
+    "removeComments": true
+  },
+  "files": [
+    "lib/auth.config.ts",
+    "lib/auth.http.ts",
+    "lib/auth.service.ts",
+    "lib/angular2-devise-token-auth.ts",
+    "lib/auth.config.spec.ts",
+    "lib/auth.http.spec.ts",
+    "typings/index.d.ts"
+  ]
+}
