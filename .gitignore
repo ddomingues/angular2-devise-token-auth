@@ -1,7 +1,8 @@
-node_modules
-npm-debug.log
-typings
+node_modules/
+typings/
+dist/
 
+npm-debug.log
 Thumbs.db
 .DS_Store
 
