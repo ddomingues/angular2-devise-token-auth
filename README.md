@@ -1,4 +1,5 @@
 # angular2-devise-token-auth
+[![Build Status](https://travis-ci.org/equalize-squad/angular2-devise-token-auth.svg?branch=master)](https://travis-ci.org/equalize-squad/angular2-devise-token-auth)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![license](https://img.shields.io/npm/l/angular2-jwt.svg)](https://www.npmjs.com/package/angular2-jwt)
 
