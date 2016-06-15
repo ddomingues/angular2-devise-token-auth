@@ -25,6 +25,8 @@ You don't need to worry about it :sunglasses:.
 
 ## Setup
 
+The AuthService need to know where the `auth` endpoint is. So you need to pass it as an argument.
+
 ```ts
 class App {
   constructor() {}
@@ -61,8 +63,6 @@ export class SomeService {
 
 
 ### AuthService
-
-The AuthService need to know where the `auth` endpoint is. So you need to pass it as an argument.
 
 ```ts
 import {AuthService} from 'angular2-devise-token-auth';
