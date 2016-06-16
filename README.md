@@ -26,18 +26,64 @@ You don't need to worry about it :sunglasses:.
 
 ## Setup
 
-The AuthService need to know where the `auth` endpoint is. So you need to pass it as an argument.
+It's supposed that you used [Angular CLI](https://github.com/angular/angular-cli) to create your app.
 
-```ts
-class App {
-  constructor() {}
-}
+1. Include Auth library in the vendor files
+   
+    Open `angular-cli-build.js`.
+   
+    Include the library in the vendorNpmFiles array:
+  
+    ```js
+    var Angular2App = require('angular-cli/lib/broccoli/angular2-app');
+    
+    module.exports = function(defaults) {
+      return new Angular2App(defaults, {
+        vendorNpmFiles: [
+          ...
+          'angular2-devise-token-auth/**/*.+(js|js.map)',
+        ]
+      });
+    };
+    ```
 
-bootstrap(App, [
-  AUTH_PROVIDERS,
-  authService('http://url-to-auth-endpoint')
-])
-```
+2. System.js
+   
+    Open `/src/system-config.ts`. Modify the file like below:
+
+    ```ts
+    /** Map relative paths to URLs. */
+    const map:any = {
+      'angular2-devise-token-auth': 'vendor/angular2-devise-token-auth/dist'
+    };
+    
+    /** User packages configuration. */
+    const packages: any = {
+      'angular2-devise-token-auth': {
+        main: 'angular2-devise-token-auth.js'
+      }
+    };
+    ```
+
+3. Bootstrap:
+    The AuthService need to know where the `auth` endpoint is. So you need to pass it as an argument.
+    So open `/src/main.ts`, inject the Auth providers, and specify your default endpoint:
+
+
+    ```ts
+    import {AUTH_PROVIDERS, authService} from 'angular2-devise-token-auth';
+    
+    class App {
+      constructor() {}
+    }
+    
+    bootstrap(App, [
+      AUTH_PROVIDERS,
+      authService('http://url-to-auth-endpoint')
+    ])
+    ```
+
+## How to use
  
 ### AuthHttp 
 
@@ -46,18 +92,12 @@ import {AuthHttp} from 'angular2-devise-token-auth';
 
 @Injectable()
 export class SomeService {
-
   thing: string;
 
   constructor(private authHttp: AuthHttp) {}
 
   getThing() {
-    this.authHttp.get('http://example.com/api/thing')
-      .subscribe(
-        data => this.thing = data,
-        err => console.log(err),
-        () => console.log('Request Complete')
-      );
+    return this.authHttp.get('http://example.com/api/thing');
   }
 }
 ```
@@ -68,7 +108,7 @@ export class SomeService {
 ```ts
 import {AuthService} from 'angular2-devise-token-auth';
 
-@Component({ ...})
+@Component({ ... })
 export class SomeComponent {
 
   constructor(private authService: AuthService) {
