@@ -18,6 +18,7 @@ The library comes with some helpers that are useful in your Angular 2 apps.
 2. `AuthService` - provide the following features according the api:
     * `sign in`
     * `sign up`
+    * `sign out`
     
 ## How it works
 

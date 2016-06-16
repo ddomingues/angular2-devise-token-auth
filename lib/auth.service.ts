@@ -25,4 +25,17 @@ export class AuthService {
         ].forEach(header => localStorage.setItem(header, response.headers.get(header)));
       });
   }
+
+  signOut():Observable<Response> {
+    return this.http.delete(`${this.endpoint}/sign_out`)
+      .do(() => {
+        [
+          this.http.config.accessToken,
+          this.http.config.tokenType,
+          this.http.config.client,
+          this.http.config.expiry,
+          this.http.config.uid
+        ].forEach(header => localStorage.removeItem(header));
+      });
+  }
 }
