@@ -27,4 +27,8 @@ export class AuthService {
         SessionController.removeUser();
       });
   }
+
+  validateToken():Observable<Response> {
+    return this.http.get(`${this.endpoint}/validate_token`);
+  }
 }

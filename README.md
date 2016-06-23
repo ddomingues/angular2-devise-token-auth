@@ -19,6 +19,7 @@ The library comes with some helpers that are useful in your Angular 2 apps.
     * `sign in`
     * `sign up`
     * `sign out`
+    * `validate token`
     
 ## How it works
 
