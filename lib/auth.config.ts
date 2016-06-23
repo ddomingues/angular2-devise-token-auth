@@ -4,6 +4,7 @@ export class AuthConfig {
   client:string;
   expiry:string;
   uid:string;
+  authHeaders:Array<string>;
   globalHeaders:Array<Object>;
 
   constructor(config:any = {}) {
@@ -13,5 +14,12 @@ export class AuthConfig {
     this.expiry = config.expiry || 'expiry';
     this.uid = config.uid || 'uid';
     this.globalHeaders = config.globalHeaders || [];
+    this.authHeaders = [
+      this.tokenType,
+      this.accessToken,
+      this.client,
+      this.expiry,
+      this.uid
+    ];
   }
 }

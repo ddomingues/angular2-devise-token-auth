@@ -15,11 +15,13 @@
   },
   "files": [
     "lib/auth.config.ts",
+    "lib/session.controller.ts",
     "lib/auth.http.ts",
     "lib/auth.service.ts",
     "lib/angular2-devise-token-auth.ts",
     "lib/auth.config.spec.ts",
     "lib/auth.http.spec.ts",
+    "lib/session.controller.spec.ts",
     "typings/index.d.ts"
   ]
 }
