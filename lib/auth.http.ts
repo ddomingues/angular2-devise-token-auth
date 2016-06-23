@@ -15,14 +15,14 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
-import {AuthConfig} from './auth.config';
+import { SessionController } from './session.controller';
 
 @Injectable()
 export class AuthHttp {
-  constructor(public config:AuthConfig, private http:Http) {
+  constructor(private http:Http) {
   }
 
-  private setGlobalHeaders(headers:Array<Object>, request:Request | RequestOptionsArgs) {
+  private setHeaders(headers:Array<Object>, request:Request | RequestOptionsArgs) {
     headers.forEach((header:Object) => {
       let key:string = Object.keys(header)[0];
       let headerValue:string = (<any>header)[key];
@@ -31,20 +31,32 @@ export class AuthHttp {
   }
 
   private setAuthHeaders(request:Request | RequestOptionsArgs) {
-    let uid:string = localStorage.getItem(this.config.uid);
-
-    if (uid) {
-      request.headers.set(this.config.accessToken, localStorage.getItem(this.config.accessToken));
-      request.headers.set(this.config.tokenType, localStorage.getItem(this.config.tokenType));
-      request.headers.set(this.config.client, localStorage.getItem(this.config.client));
-      request.headers.set(this.config.expiry, localStorage.getItem(this.config.expiry));
-      request.headers.set(this.config.uid, uid);
+    if (SessionController.userSignedIn()) {
+      this.setHeaders(SessionController.getAuthHeaders(), request);
     }
+  }
+
+  private checkAuthorization(response:Response):void {
+    if (response.status === 401) {
+      SessionController.removeUser();
+    } else {
+      SessionController.renewAccess(response.headers);
+    }
+  }
+
+  private requestHelper(requestArgs:RequestOptionsArgs, additionalOptions:RequestOptionsArgs):Observable<Response> {
+    let options:RequestOptions = new RequestOptions(requestArgs);
+
+    if (additionalOptions) {
+      options = options.merge(additionalOptions)
+    }
+
+    return this.request(new Request(options))
   }
 
   request(url:string | Request, options?:RequestOptionsArgs):Observable<Response> {
     let request:any;
-    let globalHeaders = this.config.globalHeaders;
+    let globalHeaders = SessionController.config.globalHeaders;
 
     if (typeof url === 'string') {
       let reqOpts:RequestOptionsArgs = options || {};
@@ -54,7 +66,7 @@ export class AuthHttp {
       }
 
       if (globalHeaders) {
-        this.setGlobalHeaders(globalHeaders, reqOpts);
+        this.setHeaders(globalHeaders, reqOpts);
       }
 
       this.setAuthHeaders(reqOpts);
@@ -68,7 +80,7 @@ export class AuthHttp {
       }
 
       if (globalHeaders) {
-        this.setGlobalHeaders(globalHeaders, req);
+        this.setHeaders(globalHeaders, req);
       }
 
       this.setAuthHeaders(req);
@@ -76,23 +88,13 @@ export class AuthHttp {
     }
 
     return request
-      .do(response => {
-        console.log(response);
-        localStorage.setItem(this.config.accessToken, response.headers[this.config.accessToken]);
+      .do((response:Response) => {
+        if (SessionController.userSignedIn())
+          this.checkAuthorization(response);
       })
       .catch((error:any) => {
         return Observable.throw(error.json() || 'Server error');
       });
-  }
-
-  private requestHelper(requestArgs:RequestOptionsArgs, additionalOptions:RequestOptionsArgs):Observable<Response> {
-    let options:RequestOptions = new RequestOptions(requestArgs);
-
-    if (additionalOptions) {
-      options = options.merge(additionalOptions)
-    }
-
-    return this.request(new Request(options))
   }
 
   get(url:string, options?:RequestOptionsArgs):Observable<Response> {

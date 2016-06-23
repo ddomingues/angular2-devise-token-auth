@@ -31,16 +31,10 @@ export const authService = (url: string): Provider => {
  */
 export const AUTH_PROVIDERS:any[] = [
   HTTP_PROVIDERS,
-  provide(AuthConfig, {
-    useFactory: () => new AuthConfig({
-      globalHeaders: [{'Content-Type': 'application/json'}]
-    }),
-    deps: []
-  }),
   provide(AuthHttp, {
-    useFactory: (http, authConfig) => {
-      return new AuthHttp(authConfig, http);
+    useFactory: (http) => {
+      return new AuthHttp(http);
     },
-    deps: [Http, AuthConfig]
+    deps: [Http]
   })
 ];

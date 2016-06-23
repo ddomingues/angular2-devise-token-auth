@@ -3,6 +3,7 @@ import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import {AuthHttp} from './auth.http';
+import {SessionController} from './session.controller';
 
 @Injectable()
 export class AuthService {
@@ -15,27 +16,15 @@ export class AuthService {
 
   signIn(params:Object):Observable<Response> {
     return this.http.post(`${this.endpoint}/sign_in`, JSON.stringify(params))
-      .do(response => {
-        [
-          this.http.config.accessToken,
-          this.http.config.tokenType,
-          this.http.config.client,
-          this.http.config.expiry,
-          this.http.config.uid
-        ].forEach(header => localStorage.setItem(header, response.headers.get(header)));
+      .do((response:Response) => {
+        SessionController.setUser(response.headers);
       });
   }
 
   signOut():Observable<Response> {
     return this.http.delete(`${this.endpoint}/sign_out`)
       .do(() => {
-        [
-          this.http.config.accessToken,
-          this.http.config.tokenType,
-          this.http.config.client,
-          this.http.config.expiry,
-          this.http.config.uid
-        ].forEach(header => localStorage.removeItem(header));
+        SessionController.removeUser();
       });
   }
 }
