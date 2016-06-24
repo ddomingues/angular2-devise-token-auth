@@ -1,12 +1,12 @@
 import {provide, Provider} from '@angular/core';
 import {HTTP_PROVIDERS, Http} from '@angular/http';
-import {AuthConfig} from './auth.config';
 import {AuthHttp} from './auth.http';
 import {AuthService} from './auth.service';
 
 export * from './auth.config';
 export * from './auth.http';
 export * from './auth.service';
+export * from './session.controller';
 
 /**
  * Used to define the default Auth Endpoint location to be
