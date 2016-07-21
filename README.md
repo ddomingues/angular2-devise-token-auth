@@ -14,7 +14,7 @@ npm install angular2-devise-token-auth --save
 
 The library comes with some helpers that are useful in your Angular 2 apps.
 
-1. `AuthHttp` - allows for individual and explicit authenticated HTTP requests
+1. `AuthHttp` - a wrapper around Angular's `Http` that allows for individual and explicit authenticated HTTP requests
 2. `AuthService` - provide the following features according the api:
     * `sign in`
     * `sign up`
@@ -23,7 +23,7 @@ The library comes with some helpers that are useful in your Angular 2 apps.
     
 ## How it works
 
-After you did the `sign in` all requests will be authorized through the headers that will be sent automatically each request. 
+Use `AuthService` for your authentication workflows. After you `signIn()` using `AuthService`, use `AuthHttp` throughout your application instead of Angular's `Http`. All requests will be authorized through the headers that will be sent automatically.
 You don't need to worry about it :sunglasses:.
 
 ## Setup
@@ -86,8 +86,38 @@ It's supposed that you used [Angular CLI](https://github.com/angular/angular-cli
     ```
 
 ## How to use
- 
-### AuthHttp 
+
+### AuthService
+Use `AuthService` to register and/or sign in your users. Doing so will automatically store your signed-in user in `authHeaders` that will be passed to the server with each request.
+
+```ts
+import {AuthService} from 'angular2-devise-token-auth';
+
+@Component({ ... })
+export class SomeComponent {
+
+  constructor(private authService: AuthService) {
+  }
+
+  register() {
+    this.authService.signUp({
+      email: 'foo@bar.com',
+      password: '123456',
+      password_confirmation: '123456',
+    }).subscribe(res => console.log('Successful Registration: ', res));
+  }
+
+  signIn() {
+    this.authService.signIn({
+      email: 'foo@bar.com',
+      password: '123456'
+    }).subscribe(res => console.log('Signed In successfully: ', res));
+  }
+}
+```
+
+### AuthHttp
+Use `AuthHttp` instead of `Http` in your services to automatically include devise authorization headers in each request.
 
 ```ts
 import {AuthHttp} from 'angular2-devise-token-auth';
@@ -100,28 +130,6 @@ export class SomeService {
 
   getThing() {
     return this.authHttp.get('http://example.com/api/thing');
-  }
-}
-```
-
-
-### AuthService
-
-```ts
-import {AuthService} from 'angular2-devise-token-auth';
-
-@Component({ ... })
-export class SomeComponent {
-
-  constructor(private authService: AuthService) {
-  }
-
-  doIt() {
-    this.authService.signUp({
-      email: 'foo@bar.com',
-      password: '123456',
-      password_confirmation: '123456',
-    }).subscribe(res => console.log('LoL', res));
   }
 }
 ```
