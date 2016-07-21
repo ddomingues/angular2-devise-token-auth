@@ -23,7 +23,7 @@ The library comes with some helpers that are useful in your Angular 2 apps.
     
 ## How it works
 
-Use `AuthService` for your authentication workflows. After you `sign in` using `AuthService`, use `AuthHttp` throughout your application instead of Angular's `Http`. All requests will be authorized through the headers that will be sent automatically each request.
+Use `AuthService` for your authentication workflows. After you `signIn()` using `AuthService`, use `AuthHttp` throughout your application instead of Angular's `Http`. All requests will be authorized through the headers that will be sent automatically.
 You don't need to worry about it :sunglasses:.
 
 ## Setup
